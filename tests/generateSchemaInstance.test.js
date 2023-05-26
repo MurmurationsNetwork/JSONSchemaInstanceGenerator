@@ -1,4 +1,4 @@
-import { generateSchemaInstance } from './generateSchemaInstance'
+import { generateSchemaInstance } from '../src'
 
 describe('generateSchemaInstance', () => {
   const schema = {

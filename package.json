@@ -12,7 +12,6 @@
     "Generator",
     "Murmurations"
   ],
-  "type": "module",
   "exports": {
     ".": {
       "import": {
@@ -40,15 +39,9 @@
     "prepack": "npm run build"
   },
   "dependencies": {
-    "@apidevtools/json-schema-ref-parser": "^10.1.0",
-    "@types/node": "^20.2.3",
-    "node-fetch": "^3.3.1"
-  },
-  "engines": {
-    "node": ">=14"
+    "@apidevtools/json-schema-ref-parser": "^10.1.0"
   },
   "devDependencies": {
-    "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
     "vitest": "^0.31.1"
   }
