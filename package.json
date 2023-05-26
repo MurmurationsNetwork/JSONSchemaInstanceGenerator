@@ -4,7 +4,15 @@
   "description": "JSON Schema Instance Generator (JSIG)",
   "author": "murmurations.network",
   "license": "GPLv3",
-  "keywords": ["JSON Schema", "JSON", "Schema", "Instance", "Generator", "Murmurations"],
+  "keywords": [
+    "JSON Schema",
+    "JSON",
+    "Schema",
+    "Instance",
+    "Generator",
+    "Murmurations"
+  ],
+  "type": "module",
   "exports": {
     ".": {
       "import": {
@@ -27,7 +35,7 @@
     "build": "npm run clean && npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
     "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
-    "test": "mocha",
+    "test": "vitest run --config ./vitest.config.js",
     "semantic-release": "semantic-release",
     "prepack": "npm run build"
   },
@@ -38,5 +46,9 @@
   },
   "engines": {
     "node": ">=14"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4",
+    "vitest": "^0.31.1"
   }
 }
