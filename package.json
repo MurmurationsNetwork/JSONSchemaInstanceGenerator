@@ -2,6 +2,9 @@
   "name": "@murmurations/jsig",
   "version": "1.0.0",
   "description": "JSON Schema Instance Generator (JSIG)",
+  "author": "murmurations.network",
+  "license": "GPLv3",
+  "keywords": ["JSON Schema", "JSON", "Schema", "Instance", "Generator", "Murmurations"],
   "exports": {
     ".": {
       "import": {
@@ -28,9 +31,6 @@
     "semantic-release": "semantic-release",
     "prepack": "npm run build"
   },
-  "keywords": [],
-  "author": "murmurations",
-  "license": "ISC",
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^10.1.0",
     "@types/node": "^20.2.3",
