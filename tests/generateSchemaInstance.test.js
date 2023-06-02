@@ -32,7 +32,8 @@ describe('generateSchemaInstance', () => {
       'address.city': 'Anytown',
       'address.state': 'CA',
       'address.zip': '12345',
-      phone_numbers: ['555-1234', '555-5678']
+      'phone_numbers[0]': '555-1234',
+      'phone_numbers[1]': '555-5678'
     }
 
     const expectedProfile = {
@@ -60,7 +61,7 @@ describe('generateSchemaInstance', () => {
       'address.city': 'Anytown',
       'address.state': 'CA',
       'address.zip': '',
-      phone_numbers: []
+      'phone_numbers[0]': ''
     }
 
     const expectedProfile = {
@@ -68,8 +69,7 @@ describe('generateSchemaInstance', () => {
       address: {
         city: 'Anytown',
         state: 'CA'
-      },
-      phone_numbers: []
+      }
     }
 
     const profile = generateSchemaInstance(schema, data)
