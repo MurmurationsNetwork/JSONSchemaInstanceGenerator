@@ -2,21 +2,21 @@ import refParser from '@apidevtools/json-schema-ref-parser'
 
 export async function parseSchemas(
   url: string,
-  schemaName: string
+  schemaName: string[]
 ): Promise<any> {
-  let schemaNameArr: string[] = []
-
-  if (schemaName.includes(',')) {
-    schemaNameArr = schemaName.split(',')
+  if (schemaName.length === 0) {
+    throw new Response('No schema name provided', {
+      status: 400
+    })
   }
 
   let mergedSchema: any
-  if (schemaNameArr.length > 1) {
+  if (schemaName.length > 1) {
     const schemas: any[] = []
 
     // Need to wait all results and then return the data
     await Promise.all(
-      schemaNameArr.map(async name => {
+      schemaName.map(async name => {
         const res = await retrieveSchema(url, name)
         schemas.push(res)
       })
@@ -47,7 +47,7 @@ export async function parseSchemas(
         mergedSchema.metadata.schema.push(val.metadata.schema.name)
       })
   } else {
-    mergedSchema = await retrieveSchema(url, schemaName)
+    mergedSchema = await retrieveSchema(url, schemaName[0])
     // replace schema
     const linked_schema = mergedSchema.metadata.schema.name
     mergedSchema.metadata.schema = []

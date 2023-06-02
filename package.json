@@ -46,8 +46,8 @@
   },
   "lint-staged": {
     "**/*.{ts,js,jsx,json}": [
-      "npm run lint",
-      "npm run format"
+      "npm run format",
+      "npm run lint"
     ]
   },
   "dependencies": {
