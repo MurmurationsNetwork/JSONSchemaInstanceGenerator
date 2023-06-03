@@ -615,14 +615,14 @@ describe('parseSchemas', () => {
     expect(result).toEqual(expected)
   })
 
-  it('should throw an error if the schema is empty', async () => {
+  it('should throw an error if no schema is specified', async () => {
     const schemaName = []
 
     await expect(parseSchemas(url, schemaName)).rejects.toThrowError()
   })
 
-  it('should throw an error if the schema is invalid', async () => {
-    const schemaName = ['invalid schema']
+  it('should throw an error if the schema does not exist in the library', async () => {
+    const schemaName = ['karte_von_morgen-v0.0.1']
 
     await expect(parseSchemas(url, schemaName)).rejects.toThrowError()
   })
