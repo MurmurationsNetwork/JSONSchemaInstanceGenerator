@@ -53,7 +53,7 @@ describe('generateSchemaInstance', () => {
     expect(profile).toEqual(expectedProfile)
   })
 
-  it('should generate a profile with some fields missing', () => {
+  it('should generate a profile without including empty fields', () => {
     const data = {
       name: 'Jane Smith',
       age: '',
@@ -77,9 +77,126 @@ describe('generateSchemaInstance', () => {
     expect(profile).toEqual(expectedProfile)
   })
 
-  it('should generate a profile with linked schemas', () => {
+  it('should generate a profile with deeply nested fields', () => {
+    const schema2 = {
+      type: 'object',
+      properties: {
+        connections: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              subject_url: {
+                type: 'string'
+              },
+              object_url: {
+                type: 'string'
+              },
+              relationships: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    type: {
+                      type: 'string'
+                    },
+                    qualifiers: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          type: {
+                            type: 'string'
+                          },
+                          condition: {
+                            type: 'array',
+                            items: {
+                              type: 'string'
+                            }
+                          }
+                        },
+                        required: ['condition']
+                      }
+                    },
+                    id: {
+                      type: 'string'
+                    },
+                    respects: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          domain: {
+                            type: 'string'
+                          },
+                          strength: {
+                            type: 'number'
+                          }
+                        },
+                        required: ['domain', 'strength']
+                      }
+                    },
+                    relationship_url: {
+                      type: 'string'
+                    }
+                  },
+                  required: ['type']
+                }
+              }
+            },
+            required: ['relationships', 'object_url']
+          }
+        }
+      }
+    }
+
     const data = {
-      linked_schemas: 'schema1, schema2, schema3'
+      'connections[0].subject_url': '',
+      'connections[0].object_url': 'https://some.object.com',
+      'connections[0].relationships[0].type': 'some type',
+      'connections[0].relationships[0].qualifiers[0].type': 'adjective',
+      'connections[0].relationships[0].qualifiers[0].condition[0]': 'tasty',
+      'connections[0].relationships[0].id': '',
+      'connections[0].relationships[0].respects[0].domain': 'some domain',
+      'connections[0].relationships[0].respects[0].strength': '99',
+      'connections[0].relationships[0].relationship_url':
+        'https://some.relationship.com'
+    }
+
+    const expectedProfile = {
+      connections: [
+        {
+          object_url: 'https://some.object.com',
+          relationships: [
+            {
+              type: 'some type',
+              qualifiers: [
+                {
+                  type: 'adjective',
+                  condition: ['tasty']
+                }
+              ],
+              respects: [
+                {
+                  domain: 'some domain',
+                  strength: 99
+                }
+              ],
+              relationship_url: 'https://some.relationship.com'
+            }
+          ]
+        }
+      ]
+    }
+
+    const profile = generateSchemaInstance(schema2, data)
+
+    expect(profile).toEqual(expectedProfile)
+  })
+
+  it('should generate a profile with multiple linked schemas', () => {
+    const data = {
+      linked_schemas: 'schema1,schema2, schema3'
     }
 
     const expectedProfile = {
