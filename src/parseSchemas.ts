@@ -1,5 +1,14 @@
 import refParser from '@apidevtools/json-schema-ref-parser'
 
+interface schema {
+  type: string
+  properties: object
+  required: string[]
+  metadata: {
+    schema: string[]
+  }
+}
+
 export async function parseSchemas(
   url: string,
   schemaName: string[]
@@ -10,27 +19,34 @@ export async function parseSchemas(
     })
   }
 
-  let mergedSchema: any
+  let mergedSchema: schema = {
+    type: 'object',
+    properties: {},
+    required: [],
+    metadata: {
+      schema: []
+    }
+  }
+
   if (schemaName.length > 1) {
     const schemas: any[] = []
 
     // Need to wait all results and then return the data
-    await Promise.all(
-      schemaName.map(async name => {
-        const res = await retrieveSchema(url, name)
-        schemas.push(res)
-      })
-    )
+    // Create an array to store the promises to solve the order problem
+    const promises = schemaName.map(async name => {
+      return await retrieveSchema(url, name)
+    })
+    const resolvedSchemas = await Promise.all(promises)
+    schemas.push(...resolvedSchemas)
 
     // Remove duplicate properties
     // todo: we only merge properties, required and schema here. If we need the other properties here, we should add it here.
-    mergedSchema = schemas[0]
-    const linked_schema = schemas[0].metadata.schema.name
-    mergedSchema.metadata.schema = []
-    mergedSchema.metadata.schema.push(linked_schema)
-    schemas
-      .filter((_, index) => index !== 0)
-      .forEach(val => {
+    schemas.forEach((val, index) => {
+      if (index === 0) {
+        mergedSchema.properties = val.properties
+        mergedSchema.required = val.required
+        mergedSchema.metadata.schema = [val.metadata.schema.name]
+      } else {
         // Properties field
         Object.keys(val.properties).forEach(schemasName => {
           if (!(schemasName in mergedSchema.properties)) {
@@ -39,19 +55,18 @@ export async function parseSchemas(
         })
 
         // Required field
-        const originalRequired = mergedSchema.required
-        const newRequired = val.required
-        mergedSchema.required = originalRequired.concat(newRequired)
+        mergedSchema.required = Array.from(
+          new Set(mergedSchema.required.concat(val.required))
+        )
 
         // metadata-schema
         mergedSchema.metadata.schema.push(val.metadata.schema.name)
-      })
+      }
+    })
   } else {
-    mergedSchema = await retrieveSchema(url, schemaName[0])
-    // replace schema
-    const linked_schema = mergedSchema.metadata.schema.name
-    mergedSchema.metadata.schema = []
-    mergedSchema.metadata.schema.push(linked_schema)
+    const getSchema = await retrieveSchema(url, schemaName[0])
+    mergedSchema = getSchema
+    mergedSchema.metadata.schema = [getSchema.metadata.schema.name]
   }
 
   return mergedSchema

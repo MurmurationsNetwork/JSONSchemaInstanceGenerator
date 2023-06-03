@@ -281,11 +281,6 @@ describe('parseSchemas', () => {
     const result = await parseSchemas(url, schemaName)
 
     const expected = {
-      $schema: 'https://json-schema.org/draft-07/schema#',
-      $id: 'https://test-library.murmurations.network/v2/schemas/offers_wants_prototype-v0.0.1',
-      title: 'Offers/Wants Prototype',
-      description: '',
-      type: 'object',
       properties: {
         linked_schemas: {
           title: 'Linked Schemas',
@@ -607,13 +602,13 @@ describe('parseSchemas', () => {
         'geolocation',
         'geographic_scope',
         'contact_details',
-        'linked_schemas',
         'name',
         'primary_url'
       ],
       metadata: {
         schema: ['offers_wants_prototype-v0.0.1', 'karte_von_morgen-v1.0.0']
-      }
+      },
+      type: 'object'
     }
 
     expect(result).toEqual(expected)
