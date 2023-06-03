@@ -2,7 +2,7 @@ import refParser from '@apidevtools/json-schema-ref-parser'
 
 interface schema {
   type: string
-  properties: object
+  properties: { [key: string]: object }
   required: string[]
   metadata: {
     schema: string[]
