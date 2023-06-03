@@ -281,6 +281,7 @@ describe('parseSchemas', () => {
     const result = await parseSchemas(url, schemaName)
 
     const expected = {
+      $schema: 'https://json-schema.org/draft-07/schema#',
       properties: {
         linked_schemas: {
           title: 'Linked Schemas',

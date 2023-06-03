@@ -1,6 +1,7 @@
 import refParser from '@apidevtools/json-schema-ref-parser'
 
 interface schema {
+  $schema: string
   type: string
   properties: { [key: string]: object }
   required: string[]
@@ -20,6 +21,7 @@ export async function parseSchemas(
   }
 
   let mergedSchema: schema = {
+    $schema: '',
     type: 'object',
     properties: {},
     required: [],
@@ -43,14 +45,15 @@ export async function parseSchemas(
     // todo: we only merge properties, required and schema here. If we need the other properties here, we should add it here.
     schemas.forEach((val, index) => {
       if (index === 0) {
+        mergedSchema.$schema = val.$schema
         mergedSchema.properties = val.properties
         mergedSchema.required = val.required
         mergedSchema.metadata.schema = [val.metadata.schema.name]
       } else {
         // Properties field
-        Object.keys(val.properties).forEach(schemasName => {
-          if (!(schemasName in mergedSchema.properties)) {
-            mergedSchema.properties[schemasName] = val.properties[schemasName]
+        Object.keys(val.properties).forEach(property => {
+          if (!(property in mergedSchema.properties)) {
+            mergedSchema.properties[property] = val.properties[property]
           }
         })
 
