@@ -67,10 +67,16 @@ function parseArrayObject(
 
       // Move the current pointer to the object
       if (i === props.length - 1) {
-        if (currSchema?.properties[prop]?.type === 'number') {
-          fieldData = parseFloat(fieldData)
+        if (
+          currSchema &&
+          currSchema.properties &&
+          Object.prototype.hasOwnProperty.call(currSchema.properties, prop)
+        ) {
+          if (currSchema?.properties[prop]?.type === 'number') {
+            fieldData = parseFloat(fieldData)
+          }
+          curr[prop] = fieldData
         }
-        curr[prop] = fieldData
       } else {
         curr = curr[prop]
         currSchema = currSchema?.properties[prop]
