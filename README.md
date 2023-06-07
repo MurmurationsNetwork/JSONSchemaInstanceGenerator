@@ -10,12 +10,6 @@
 npm install
 ```
 
-### Publish the package
-
-```sh
-npm link
-```
-
 ### Build the package
 
 ```sh
@@ -25,7 +19,7 @@ npm run build
 ### Use package in another project (run command in that project's directory)
 
 ```sh
-npm link @murmurations/jsig
+npm install --no-save ../JSONSchemaInstanceGenerator
 ```
 
 ## Reference
