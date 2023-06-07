@@ -67,6 +67,7 @@ function parseArrayObject(
 
       // Move the current pointer to the object
       if (i === props.length - 1) {
+        // Fix Prototype-polluting function
         if (
           currSchema &&
           currSchema.properties &&
