@@ -1,9 +1,8 @@
 name: Test and Publish NPM Package
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [prereleased, released]
 
 jobs:
   test:
@@ -14,9 +13,9 @@ jobs:
 
     steps:
       - name: ⬇️ Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: 📦 Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - name: 📥 Install dependencies
@@ -29,15 +28,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: 📦 Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
       - name: 📥 Install dependencies and build
         run: npm ci & npm run build
-      - name: 🚀 Publish to NPM
+      - name: 🚀 Publish to NPM on prerelease
+        if: ${{ github.event.release.prerelease == true }}
+        run: npm publish --tag pre
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: 🚀 Publish to NPM on release
+        if: ${{ github.event.release.prerelease == false }}
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
