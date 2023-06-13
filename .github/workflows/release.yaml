@@ -8,7 +8,7 @@ jobs:
   test:
     strategy:
         matrix:
-            node-version: [14, 16, 18]
+            node-version: [18]
     runs-on: ubuntu-latest
 
     steps:
@@ -18,8 +18,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: 📥 Install dependencies
-        run: npm ci
+      - name: 📥 Install dependencies and build
+        run: npm ci & npm run build
       - name: 🏃 Run tests
         run: npm test
 
@@ -32,7 +32,7 @@ jobs:
       - name: 📦 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
           registry-url: https://registry.npmjs.org/
       - name: 📥 Install dependencies and build
         run: npm ci & npm run build
