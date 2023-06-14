@@ -1,6 +1,6 @@
 {
   "name": "@murmurations/jsig",
-  "version": "1.0.0-pre.2",
+  "version": "1.0.0",
   "description": "JSON Schema Instance Generator (JSIG)",
   "author": "murmurations.network",
   "license": "GPLv3",
