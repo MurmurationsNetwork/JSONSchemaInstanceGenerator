@@ -26,14 +26,14 @@ describe('generateSchemaInstance', () => {
 
   it('should generate a profile with all fields', () => {
     const data = {
-      name: 'John Doe',
-      age: '30',
-      'address.street': '123 Main St',
-      'address.city': 'Anytown',
-      'address.state': 'CA',
-      'address.zip': '12345',
-      'phone_numbers[0]': '555-1234',
-      'phone_numbers[1]': '555-5678'
+      name: ['John Doe'],
+      age: ['30'],
+      'address.street': ['123 Main St'],
+      'address.city': ['Anytown'],
+      'address.state': ['CA'],
+      'address.zip': ['12345'],
+      'phone_numbers[0]': ['555-1234'],
+      'phone_numbers[1]': ['555-5678']
     }
 
     const expectedProfile = {
@@ -55,13 +55,13 @@ describe('generateSchemaInstance', () => {
 
   it('should generate a profile without including empty fields', () => {
     const data = {
-      name: 'Jane Smith',
-      age: '',
-      'address.street': '',
-      'address.city': 'Anytown',
-      'address.state': 'CA',
-      'address.zip': '',
-      'phone_numbers[0]': ''
+      name: ['Jane Smith'],
+      age: [''],
+      'address.street': [''],
+      'address.city': ['Anytown'],
+      'address.state': ['CA'],
+      'address.zip': [''],
+      'phone_numbers[0]': ['']
     }
 
     const expectedProfile = {
@@ -151,16 +151,17 @@ describe('generateSchemaInstance', () => {
     }
 
     const data = {
-      'connections[0].subject_url': '',
-      'connections[0].object_url': 'https://some.object.com',
-      'connections[0].relationships[0].type': 'some type',
-      'connections[0].relationships[0].qualifiers[0].type': 'adjective',
-      'connections[0].relationships[0].qualifiers[0].condition[0]': 'tasty',
-      'connections[0].relationships[0].id': '',
-      'connections[0].relationships[0].respects[0].domain': 'some domain',
-      'connections[0].relationships[0].respects[0].strength': '99',
-      'connections[0].relationships[0].relationship_url':
+      'connections[0].subject_url': [''],
+      'connections[0].object_url': ['https://some.object.com'],
+      'connections[0].relationships[0].type': ['some type'],
+      'connections[0].relationships[0].qualifiers[0].type': ['adjective'],
+      'connections[0].relationships[0].qualifiers[0].condition[0]': ['tasty'],
+      'connections[0].relationships[0].id': [''],
+      'connections[0].relationships[0].respects[0].domain': ['some domain'],
+      'connections[0].relationships[0].respects[0].strength': ['99'],
+      'connections[0].relationships[0].relationship_url': [
         'https://some.relationship.com'
+      ]
     }
 
     const expectedProfile = {
@@ -196,7 +197,7 @@ describe('generateSchemaInstance', () => {
 
   it('should generate a profile with multiple linked schemas', () => {
     const data = {
-      linked_schemas: 'schema1,schema2, schema3'
+      linked_schemas: ['schema1,schema2, schema3']
     }
 
     const expectedProfile = {
