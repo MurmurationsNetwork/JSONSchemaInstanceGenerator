@@ -65,6 +65,7 @@ describe('parseSchemas', () => {
             'The primary URL of the entity or item (i.e., its unique, canonical and definitive website address)',
           type: 'string',
           maxLength: 2000,
+          pattern: '^https?://.*',
           metadata: {
             creator: {
               name: 'Murmurations Network',
@@ -461,6 +462,7 @@ describe('parseSchemas', () => {
             'The primary URL of the entity or item (i.e., its unique, canonical and definitive website address)',
           type: 'string',
           maxLength: 2000,
+          pattern: '^https?://.*',
           metadata: {
             creator: {
               name: 'Murmurations Network',

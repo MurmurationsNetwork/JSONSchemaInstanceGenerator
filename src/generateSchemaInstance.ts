@@ -1,5 +1,6 @@
 export function generateSchemaInstance(schema: any, data: any): any {
   let profile: any = {}
+  data = parseArrayData(data)
 
   Object.keys(data)
     .filter(fieldName => data[fieldName] !== '')
@@ -86,4 +87,23 @@ function parseArrayObject(
   }
 
   return profile
+}
+
+function parseArrayData(data: any): any {
+  // deal with multiple values submitted as an array
+  for (const key in data) {
+    if (key.endsWith('[]')) {
+      const keyWithoutBrackets = key.slice(0, -2)
+
+      if (data[key].length === 1) {
+        data[keyWithoutBrackets] = []
+        data[keyWithoutBrackets].push(...data[key])
+      } else {
+        data[keyWithoutBrackets] = data[key]
+      }
+
+      delete data[key]
+    }
+  }
+  return data
 }
