@@ -103,6 +103,10 @@ function parseArrayData(data: any): any {
       }
 
       delete data[key]
+    } else {
+      if (data[key].length === 1) {
+        data[key] = data[key][0]
+      }
     }
   }
   return data
