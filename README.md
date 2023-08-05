@@ -37,16 +37,24 @@ const schema = {
   // Schema definition
 }
 
+// The following data is an example of the data, you should use the formData directly
 const data = {
   // Input data
-  name: 'John Doe',
-  age: 30,
-  email: 'john.doe@example.com',
+  name: ['John Doe'],
+  age: [30],
+  email: ['john.doe@example.com'],
   // If key contains ".", it will be parsed to an Object
-  'address.zip': 10000,
-  'address.city': 'City',
+  'address.zip': [10000],
+  'address.city': ['City'],
   // If key contains "[]", it will be parsed to an Array
-  'tags[0]': 'self'
+  'tags[0]': ['self']
+}
+
+// data should be directly from the formData without making any changes
+const formData = new FormData(event.target)
+let data = {}
+for (let key of formData.keys()) {
+  data[key] = formData.getAll(key)
 }
 
 try {
