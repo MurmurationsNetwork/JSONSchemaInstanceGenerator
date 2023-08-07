@@ -1,5 +1,7 @@
 import refParser from '@apidevtools/json-schema-ref-parser'
 
+globalThis.fetch = fetch
+
 interface schema {
   $schema: string
   type: string
@@ -77,9 +79,11 @@ export async function parseSchemas(
 
 async function retrieveSchema(url: string, schemaName: string): Promise<any> {
   const schemaUrl = `${url}/${schemaName}`
-  return await refParser.dereference(schemaUrl).catch(err => {
-    throw new Response(`parseRef error: ${err}`, {
+  try {
+    return await refParser.dereference(schemaUrl)
+  } catch (error) {
+    throw new Response(`parseRef error: ${error}`, {
       status: 500
     })
-  })
+  }
 }
