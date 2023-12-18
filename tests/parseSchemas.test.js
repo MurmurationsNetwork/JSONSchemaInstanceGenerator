@@ -62,7 +62,7 @@ describe('parseSchemas', () => {
         primary_url: {
           title: 'Primary URL',
           description:
-            'The main URL of the entity or item (i.e., its website address)',
+            'The main URL (i.e., its website address) of the entity or item (e.g., https://my-entity.org or https://some-host.net/my-entity)',
           type: 'string',
           maxLength: 2000,
           pattern: '^https?://.*',
@@ -184,7 +184,7 @@ describe('parseSchemas', () => {
             },
             context: ['https://schema.org/Country'],
             purpose:
-              "A free form field to enter a country's name. The Index will try to match that text to a country's name and will store the country's two-letter ISO-3166-1 code in the Index database to enable searching by country for the entity. The name-to-ISO mapping is here: https://github.com/MurmurationsNetwork/MurmurationsLibrary/blob/main/countries/map.json"
+              "A free form field to enter a country's name. The Index will try to match that text to a country's name and will store the country's two-letter ISO-3166-1 code in the Index database to enable searching by country for the entity. The name-to-ISO mapping is here: https://github.com/MurmurationsNetwork/MurmurationsServices/blob/main/services/library/static/countries.json"
           }
         },
         email: {
@@ -459,7 +459,7 @@ describe('parseSchemas', () => {
         primary_url: {
           title: 'Primary URL',
           description:
-            'The main URL of the entity or item (i.e., its website address)',
+            'The main URL (i.e., its website address) of the entity or item (e.g., https://my-entity.org or https://some-host.net/my-entity)',
           type: 'string',
           maxLength: 2000,
           pattern: '^https?://.*',
@@ -562,7 +562,7 @@ describe('parseSchemas', () => {
             },
             context: ['https://schema.org/Country'],
             purpose:
-              "A free form field to enter a country's name. The Index will try to match that text to a country's name and will store the country's two-letter ISO-3166-1 code in the Index database to enable searching by country for the entity. The name-to-ISO mapping is here: https://github.com/MurmurationsNetwork/MurmurationsLibrary/blob/main/countries/map.json"
+              "A free form field to enter a country's name. The Index will try to match that text to a country's name and will store the country's two-letter ISO-3166-1 code in the Index database to enable searching by country for the entity. The name-to-ISO mapping is here: https://github.com/MurmurationsNetwork/MurmurationsServices/blob/main/services/library/static/countries.json"
           }
         },
         email: {
