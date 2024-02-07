@@ -274,10 +274,7 @@ describe('parseSchemas', () => {
   })
 
   it('should return correct schema if schemas is more than one', async () => {
-    let schemaName = [
-      'offers_wants_prototype-v0.0.1',
-      'karte_von_morgen-v1.0.0'
-    ]
+    let schemaName = ['offers_wants_schema-v0.1.0', 'karte_von_morgen-v1.0.0']
 
     const result = await parseSchemas(url, schemaName)
 
@@ -331,21 +328,24 @@ describe('parseSchemas', () => {
           ]
         },
         transaction_type: {
-          title: 'Transaction Type',
           description: 'On what basis do you want to exchange the item?',
-          type: 'string',
-          enum: ['borrow-lend', 'rent-lease', 'buy-sell', 'receive-donate'],
-          enumNames: [
-            'Borrow/Lend - I want to borrow or lend the item',
-            'Rent/Lease - I want to rent or lease the item',
-            'Buy/Sell - I want to buy or sell the item',
-            'Receive/Donate - I want to receive or donate the item'
-          ]
+          items: {
+            enum: ['borrow-lend', 'rent-lease', 'buy-sell', 'receive-donate'],
+            enumNames: [
+              'Borrow/Lend - I want to borrow or lend the item',
+              'Rent/Lease - I want to rent or lease the item',
+              'Buy/Sell - I want to buy or sell the item',
+              'Receive/Donate - I want to receive or donate the item'
+            ],
+            type: 'string'
+          },
+          title: 'Transaction Type',
+          type: 'array'
         },
         tags: {
           title: 'Tags',
           description:
-            'Keywords relevant to the good or service you are offering or wanting.',
+            'Keywords relevant to the good or service you are offering or wanting, searchable in the Murmurations index',
           type: 'array',
           items: {
             type: 'string'
@@ -355,45 +355,85 @@ describe('parseSchemas', () => {
         title: {
           title: 'Title',
           description:
-            'A few words describing the good or service you are offering or wanting.',
+            'A few words describing the good or service you are offering or wanting',
           type: 'string'
         },
         description: {
           title: 'Description',
           description:
-            'A longer description (1 to 3 sentences) of the good or service you are offering or wanting.',
+            'A longer description (1 to 3 sentences) of the good or service you are offering or wanting',
           type: 'string'
         },
         image: {
           title: 'Image',
-          description: 'An image URL (starting with https:// or http://)',
+          description:
+            'An image URL (starting with https:// or http://) of the good or service',
           type: 'string',
           pattern: '^https?://.*'
         },
         details_url: {
           title: 'Item Details URL',
           description:
-            'A webpage (starting with https:// or http://) with further details about the item you are offering or wanting.',
+            'A webpage (starting with https:// or http://) with further details about the item you are offering or wanting',
           type: 'string',
           pattern: '^https?://.*'
         },
         geolocation: {
           title: 'Geolocation',
           description:
-            'The geo-coordinates (in decimal format) where the item is available or wanted.',
+            'The geo-coordinates (in decimal format) where the item is available or wanted',
+          metadata: {
+            context: [
+              'https://schema.org/latitude',
+              'https://schema.org/longitude',
+              'https://schema.org/GeoCoordinates'
+            ],
+            creator: {
+              name: 'Murmurations Network',
+              url: 'https://murmurations.network'
+            },
+            field: {
+              name: 'geolocation',
+              version: '1.0.0'
+            }
+          },
           type: 'object',
           properties: {
             lat: {
-              title: 'Latitude',
-              type: 'number',
+              description: 'A decimal amount between -90 and 90',
+              maximum: 90,
+              metadata: {
+                context: ['https://schema.org/latitude'],
+                creator: {
+                  name: 'Murmurations Network',
+                  url: 'https://murmurations.network'
+                },
+                field: {
+                  name: 'latitude',
+                  version: '1.0.0'
+                }
+              },
               minimum: -90,
-              maximum: 90
+              title: 'Latitude',
+              type: 'number'
             },
             lon: {
-              title: 'Longitude',
-              type: 'number',
+              description: 'A decimal amount between -180 and 180',
+              maximum: 180,
+              metadata: {
+                context: ['https://schema.org/longitude'],
+                creator: {
+                  name: 'Murmurations Network',
+                  url: 'https://murmurations.network'
+                },
+                field: {
+                  name: 'longitude',
+                  version: '1.0.0'
+                }
+              },
               minimum: -180,
-              maximum: 180
+              title: 'Longitude',
+              type: 'number'
             }
           },
           required: ['lat', 'lon']
@@ -401,7 +441,7 @@ describe('parseSchemas', () => {
         geographic_scope: {
           title: 'Geographic Scope',
           description:
-            'The geographic scope of the avalability of or wish for the item.',
+            'The geographic scope of the avalability of or wish for the item',
           type: 'string',
           enum: ['local', 'regional', 'national', 'international'],
           enumNames: [
@@ -414,18 +454,18 @@ describe('parseSchemas', () => {
         contact_details: {
           title: 'Contact Details',
           description:
-            'The contact details for the person or organization offering or wanting the item (fill in at least one).',
+            'The contact details for the person or organization offering or wanting the item (fill in at least one)',
           type: 'object',
           properties: {
             email: {
               title: 'Email Address',
-              description: 'Your email address.',
+              description: 'Your email address',
               type: 'string'
             },
             contact_form: {
               title: 'Contact Form',
               description:
-                'A webpage (starting with https:// or http://) with a contact form that can be used to reach you.',
+                'A webpage (starting with https:// or http://) with a contact form that can be used to reach you',
               type: 'string',
               pattern: '^https?://.*'
             }
@@ -434,7 +474,7 @@ describe('parseSchemas', () => {
         expires_at: {
           title: 'Expires At',
           description:
-            'The date and time (a Unix timestamp, e.g., 1651848477) when this offer or want expires.',
+            'The date and time (e.g., 1651848477, convert dates at <https://www.unixtimestamp.com>) when this offer or want expires',
           type: 'number'
         },
         name: {
@@ -597,19 +637,17 @@ describe('parseSchemas', () => {
       required: [
         'linked_schemas',
         'exchange_type',
-        'item_type',
         'transaction_type',
         'tags',
         'title',
         'description',
-        'geolocation',
         'geographic_scope',
         'contact_details',
         'name',
         'primary_url'
       ],
       metadata: {
-        schema: ['offers_wants_prototype-v0.0.1', 'karte_von_morgen-v1.0.0']
+        schema: ['offers_wants_schema-v0.1.0', 'karte_von_morgen-v1.0.0']
       },
       type: 'object'
     }
