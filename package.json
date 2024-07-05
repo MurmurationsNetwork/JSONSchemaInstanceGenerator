@@ -1,6 +1,6 @@
 {
   "name": "@murmurations/jsig",
-  "type": "commonjs",
+  "type": "module",
   "version": "1.0.8-pre.0",
   "description": "JSON Schema Instance Generator (JSIG)",
   "author": "murmurations.network",
@@ -16,8 +16,8 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./lib/esm/types/index.d.mts",
-        "default": "./lib/esm/index.mjs"
+        "types": "./lib/esm/types/index.d.ts",
+        "default": "./lib/esm/index.js"
       },
       "require": {
         "types": "./lib/cjs/types/index.d.ts",
@@ -25,15 +25,15 @@
       }
     }
   },
-  "types": "./lib/cjs/types/index.d.ts",
-  "main": "./lib/cjs/index.js",
+  "types": "./lib/esm/types/index.d.ts",
+  "main": "./lib/esm/index.js",
   "files": [
     "lib/**/*"
   ],
   "scripts": {
     "clean": "rm -rf ./lib",
     "build": "npm run clean && npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc -p ./configs/tsconfig.esm.json && find ./lib/esm -name '*.js' -exec sh -c 'mv \"$1\" \"${1%.js}.mjs\"' _ {} \\; && find ./lib/esm -name '*.d.ts' -exec sh -c 'mv \"$1\" \"${1%.d.ts}.d.mts\"' _ {} \\;",
+    "build:esm": "tsc -p ./configs/tsconfig.esm.json",
     "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
     "test": "vitest run --config ./vitest.config.js",
     "semantic-release": "semantic-release",
