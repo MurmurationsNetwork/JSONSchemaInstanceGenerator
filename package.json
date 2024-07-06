@@ -1,6 +1,7 @@
 {
   "name": "@murmurations/jsig",
-  "version": "1.0.7",
+  "type": "module",
+  "version": "1.0.8",
   "description": "JSON Schema Instance Generator (JSIG)",
   "author": "murmurations.network",
   "license": "GPLv3",
@@ -12,28 +13,18 @@
     "Generator",
     "Murmurations"
   ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "exports": {
-    ".": {
-      "import": {
-        "types": "./lib/esm/types/index.d.ts",
-        "default": "./lib/esm/index.js"
-      },
-      "require": {
-        "types": "./lib/cjs/types/index.d.ts",
-        "default": "./lib/cjs/index.js"
-      }
-    }
+    ".": "./dist/index.js"
   },
-  "types": "./lib/cjs/types/index.d.ts",
-  "main": "./lib/cjs/index.js",
   "files": [
-    "lib/**/*"
+    "dist/**/*"
   ],
   "scripts": {
-    "clean": "rm -rf ./lib",
-    "build": "npm run clean && npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc -p ./configs/tsconfig.esm.json",
-    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+    "clean": "rm -rf ./dist",
+    "build": "npm run clean && npm run build:esm",
+    "build:esm": "tsc -p tsconfig.json",
     "test": "vitest run --config ./vitest.config.js",
     "semantic-release": "semantic-release",
     "prepack": "npm run build",
