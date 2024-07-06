@@ -12,5 +12,5 @@ lerna-debug.log*
 
 # Generated files
 .DS_Store
-lib
+dist
 node_modules
