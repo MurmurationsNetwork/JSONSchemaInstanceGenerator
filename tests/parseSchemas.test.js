@@ -37,7 +37,7 @@ describe('parseSchemas', () => {
               version: '1.0.0'
             },
             purpose:
-              'This field is required in all Murmurations schemas to ensure that a profile is valid and can be posted to the Index. It is the only required field in the default-v2.0.0 schema, which is the schema used by the Index to process incoming profiles.'
+              'This field is required in all Murmurations schemas to ensure that a profile is valid and can be posted to the Index. It is the only required field in the default-v2.0.0 schema, which is the first schema used by the Index to process incoming profiles.'
           }
         },
         name: {
@@ -45,6 +45,7 @@ describe('parseSchemas', () => {
           description:
             'The name of the entity, organization, project, item, etc.',
           type: 'string',
+          maxLength: 200,
           metadata: {
             creator: {
               name: 'Murmurations Network',
@@ -139,6 +140,7 @@ describe('parseSchemas', () => {
           title: 'Locality',
           description:
             'The locality (city, town, village, etc.) where the entity is located',
+          maxLength: 100,
           type: 'string',
           metadata: {
             creator: {
@@ -156,6 +158,7 @@ describe('parseSchemas', () => {
           title: 'Region',
           description:
             'The region (state, county, province, etc.) where the entity is located',
+          maxLength: 100,
           type: 'string',
           metadata: {
             creator: {
@@ -172,6 +175,7 @@ describe('parseSchemas', () => {
         country_name: {
           title: 'Country name',
           description: 'The name of country where the entity is based',
+          maxLength: 100,
           type: 'string',
           metadata: {
             creator: {
@@ -242,9 +246,12 @@ describe('parseSchemas', () => {
             'Keywords relevant to this entity and its activities or attributes, searchable in the Murmurations index',
           type: 'array',
           items: {
+            maxLength: 100,
             type: 'string'
           },
           uniqueItems: true,
+          maxItems: 100,
+          minItems: 1,
           metadata: {
             creator: {
               name: 'Murmurations Network',
@@ -302,7 +309,7 @@ describe('parseSchemas', () => {
               version: '1.0.0'
             },
             purpose:
-              'This field is required in all Murmurations schemas to ensure that a profile is valid and can be posted to the Index. It is the only required field in the default-v2.0.0 schema, which is the schema used by the Index to process incoming profiles.'
+              'This field is required in all Murmurations schemas to ensure that a profile is valid and can be posted to the Index. It is the only required field in the default-v2.0.0 schema, which is the first schema used by the Index to process incoming profiles.'
           }
         },
         exchange_type: {
@@ -482,6 +489,7 @@ describe('parseSchemas', () => {
           description:
             'The name of the entity, organization, project, item, etc.',
           type: 'string',
+          maxLength: 200,
           metadata: {
             creator: {
               name: 'Murmurations Network',
@@ -557,6 +565,7 @@ describe('parseSchemas', () => {
           title: 'Locality',
           description:
             'The locality (city, town, village, etc.) where the entity is located',
+          maxLength: 100,
           type: 'string',
           metadata: {
             creator: {
@@ -574,6 +583,7 @@ describe('parseSchemas', () => {
           title: 'Region',
           description:
             'The region (state, county, province, etc.) where the entity is located',
+          maxLength: 100,
           type: 'string',
           metadata: {
             creator: {
@@ -590,6 +600,7 @@ describe('parseSchemas', () => {
         country_name: {
           title: 'Country name',
           description: 'The name of country where the entity is based',
+          maxLength: 100,
           type: 'string',
           metadata: {
             creator: {
